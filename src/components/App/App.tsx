@@ -18,7 +18,7 @@ export default function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const { data, error, isLoading, isError, isSuccess } = useQuery({
+  const { data, isLoading, isError, isSuccess } = useQuery({
     queryKey: ["movie"],
     queryFn: () => fetchMovie(topic),
     enabled: topic.trim() !== "",
