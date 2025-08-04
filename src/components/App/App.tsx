@@ -19,17 +19,17 @@ export default function App() {
   const [currentPage, setCurrentPage] = useState(1);
 
   const { data, isLoading, isError, isSuccess } = useQuery({
-    queryKey: ["movie"],
-    queryFn: () => fetchMovie(topic),
+    queryKey: ["movie", topic, currentPage],
+    queryFn: () => fetchMovie(topic, currentPage),
     enabled: topic.trim() !== "",
   });
 
-  const totalPages: number = data?.data?.total_pages ?? 0;
+  const totalPages: number = data?.total_pages ?? 0;
   useEffect(() => {
     if (!data) return;
-    if (data.data.results.length === 0)
+    if (data.results.length === 0)
       toast.error("No movies found for your request");
-    setMovies(data.data.results);
+    setMovies(data.results);
   }, [data]);
   useEffect(() => {
     console.log("Now article is: ", movies);
