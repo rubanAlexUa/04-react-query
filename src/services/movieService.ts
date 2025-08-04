@@ -7,8 +7,9 @@ interface MoviesHttpResponse {
   results: Movie[];
 }
 
-export const fetchMovie = async (topic: string): Promise<Movie[]> => {
-  const response = await axios.get<MoviesHttpResponse>(
+export const fetchMovie = async (topic: string) => {
+  if (!topic) return;
+  return await axios.get<MoviesHttpResponse>(
     `https://api.themoviedb.org/3/search/movie?query=${topic}&include_adult=false&language=en-US`,
     {
       params: {
@@ -19,6 +20,4 @@ export const fetchMovie = async (topic: string): Promise<Movie[]> => {
       },
     }
   );
-
-  return response.data.results;
 };
