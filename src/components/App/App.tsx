@@ -14,7 +14,6 @@ import type { Movie } from "../../types/movie";
 export default function App() {
   const [query, setQuery] = useState<string>("");
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [page, setPage] = useState(1);
 
   const { data, isLoading, isError, isSuccess } = useQuery({
@@ -31,19 +30,14 @@ export default function App() {
       toast.error("No movies found for your request");
   }, [data]);
   useEffect(() => {
-    console.log("Modal is " + (isModalOpen ? "Opened" : "Closed"));
-  }, [isModalOpen]);
-  useEffect(() => {
     console.log("Info movie for modal: ", selectedMovie);
   }, [selectedMovie]);
 
   function openModal(infoMovie: Movie) {
     setSelectedMovie(infoMovie);
-    setIsModalOpen(true);
   }
 
   function onClose() {
-    setIsModalOpen(false);
     setSelectedMovie(null);
   }
 
@@ -68,7 +62,7 @@ export default function App() {
           previousLabel="←"
         />
       )}
-      {query !== " " && isLoading && <Loader />}
+      {query.trim() !== "" && isLoading && <Loader />}
       {isError && <ErrorMessage />}
       {data?.results.length !== 0 && isSuccess && (
         <MovieGrid movies={data?.results} onSelect={openModal} />
